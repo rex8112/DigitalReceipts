@@ -2,7 +2,7 @@ namespace DigitalReceipts
 {
     public partial class AddReceipt : Form
     {
-        private float moneyAmount;
+        private decimal moneyAmount;
 
         public AddReceipt()
         {
@@ -15,12 +15,20 @@ namespace DigitalReceipts
                 "Money Order"
             };
             this.paymentTypeBox.DataSource = AllowedPaymentTypes;
-            this.moneyAmount = 0f;
+            this.moneyAmount = 0m;
         }
 
         private void moneyBox_Leave(object sender, EventArgs e)
         {
-            this.moneyAmount = float.Parse(moneyBox.Text);
+            try
+            {
+                this.moneyAmount = decimal.Parse(moneyBox.Text);
+            }
+            catch (FormatException)
+            {
+                this.moneyAmount = 0m;
+                this.moneyBox.Text = "0.00";
+            }
         }
 
         private void forCheck_CheckedChanged(object sender, EventArgs e)

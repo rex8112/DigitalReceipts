@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddReceipt));
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.fromBox = new System.Windows.Forms.TextBox();
             this.addressBox = new System.Windows.Forms.TextBox();
@@ -44,6 +45,8 @@
             this.forCheck = new System.Windows.Forms.CheckBox();
             this.forBox = new System.Windows.Forms.TextBox();
             this.forTip = new System.Windows.Forms.ToolTip(this.components);
+            this.idLabel = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // dateTimePicker1
@@ -167,11 +170,32 @@
             this.forBox.TabIndex = 13;
             this.forBox.Visible = false;
             // 
+            // idLabel
+            // 
+            this.idLabel.AutoSize = true;
+            this.idLabel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.idLabel.Location = new System.Drawing.Point(367, 9);
+            this.idLabel.Name = "idLabel";
+            this.idLabel.Size = new System.Drawing.Size(78, 21);
+            this.idLabel.TabIndex = 14;
+            this.idLabel.Text = "E-000001";
+            // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(12, 207);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 15;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(470, 242);
+            this.Controls.Add(this.saveButton);
+            this.Controls.Add(this.idLabel);
             this.Controls.Add(this.forBox);
             this.Controls.Add(this.forCheck);
             this.Controls.Add(this.referenceLabel);
@@ -186,6 +210,10 @@
             this.Controls.Add(this.addressBox);
             this.Controls.Add(this.fromBox);
             this.Controls.Add(this.dateTimePicker1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(486, 281);
             this.Name = "AddReceipt";
             this.Text = "Add Receipt";
             this.ResumeLayout(false);
@@ -210,5 +238,7 @@
         private CheckBox forCheck;
         private TextBox forBox;
         private ToolTip forTip;
+        private Label idLabel;
+        private Button saveButton;
     }
 }
