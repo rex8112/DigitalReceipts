@@ -155,6 +155,7 @@
             this.forCheck.Size = new System.Drawing.Size(81, 19);
             this.forCheck.TabIndex = 12;
             this.forCheck.Text = "For Tenant";
+            this.forTip.SetToolTip(this.forCheck, "Check if the payer in From is not the Tenant\r\nin Appfolio.");
             this.forCheck.UseVisualStyleBackColor = true;
             this.forCheck.CheckedChanged += new System.EventHandler(this.forCheck_CheckedChanged);
             // 
@@ -165,10 +166,6 @@
             this.forBox.Size = new System.Drawing.Size(231, 23);
             this.forBox.TabIndex = 13;
             this.forBox.Visible = false;
-            // 
-            // forTip
-            // 
-            this.forTip.ToolTipTitle = "If the payer is not the tenant";
             // 
             // AddReceipt
             // 
