@@ -38,5 +38,10 @@ namespace DigitalReceipts
             else
                 this.forBox.Visible = false;
         }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText($"{remarksBox.Text} {idLabel.Text}");
+        }
     }
 }
