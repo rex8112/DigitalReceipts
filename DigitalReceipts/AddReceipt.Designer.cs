@@ -62,21 +62,21 @@
             this.fromBox.Location = new System.Drawing.Point(94, 41);
             this.fromBox.Name = "fromBox";
             this.fromBox.Size = new System.Drawing.Size(231, 23);
-            this.fromBox.TabIndex = 1;
+            this.fromBox.TabIndex = 2;
             // 
             // addressBox
             // 
             this.addressBox.Location = new System.Drawing.Point(94, 70);
             this.addressBox.Name = "addressBox";
             this.addressBox.Size = new System.Drawing.Size(231, 23);
-            this.addressBox.TabIndex = 2;
+            this.addressBox.TabIndex = 4;
             // 
             // remarksBox
             // 
             this.remarksBox.Location = new System.Drawing.Point(94, 99);
             this.remarksBox.Name = "remarksBox";
             this.remarksBox.Size = new System.Drawing.Size(231, 23);
-            this.remarksBox.TabIndex = 3;
+            this.remarksBox.TabIndex = 5;
             // 
             // paymentTypeBox
             // 
@@ -85,7 +85,7 @@
             this.paymentTypeBox.Location = new System.Drawing.Point(94, 128);
             this.paymentTypeBox.Name = "paymentTypeBox";
             this.paymentTypeBox.Size = new System.Drawing.Size(121, 23);
-            this.paymentTypeBox.TabIndex = 5;
+            this.paymentTypeBox.TabIndex = 6;
             // 
             // fromLabel
             // 
@@ -119,7 +119,7 @@
             this.moneyBox.Location = new System.Drawing.Point(345, 41);
             this.moneyBox.Name = "moneyBox";
             this.moneyBox.Size = new System.Drawing.Size(100, 23);
-            this.moneyBox.TabIndex = 9;
+            this.moneyBox.TabIndex = 3;
             this.moneyBox.Leave += new System.EventHandler(this.moneyBox_Leave);
             // 
             // moneyLabel
@@ -138,7 +138,7 @@
             this.referenceBox.Name = "referenceBox";
             this.referenceBox.PlaceholderText = "Ex: Check #123";
             this.referenceBox.Size = new System.Drawing.Size(159, 23);
-            this.referenceBox.TabIndex = 10;
+            this.referenceBox.TabIndex = 7;
             // 
             // referenceLabel
             // 
@@ -156,7 +156,7 @@
             this.forCheck.Location = new System.Drawing.Point(7, 171);
             this.forCheck.Name = "forCheck";
             this.forCheck.Size = new System.Drawing.Size(81, 19);
-            this.forCheck.TabIndex = 12;
+            this.forCheck.TabIndex = 8;
             this.forCheck.Text = "For Tenant";
             this.forTip.SetToolTip(this.forCheck, "Check if the payer in From is not the Tenant\r\nin Appfolio.");
             this.forCheck.UseVisualStyleBackColor = true;
@@ -167,7 +167,7 @@
             this.forBox.Location = new System.Drawing.Point(94, 169);
             this.forBox.Name = "forBox";
             this.forBox.Size = new System.Drawing.Size(231, 23);
-            this.forBox.TabIndex = 13;
+            this.forBox.TabIndex = 9;
             this.forBox.Visible = false;
             // 
             // idLabel
@@ -185,7 +185,7 @@
             this.saveButton.Location = new System.Drawing.Point(12, 207);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
-            this.saveButton.TabIndex = 15;
+            this.saveButton.TabIndex = 10;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
