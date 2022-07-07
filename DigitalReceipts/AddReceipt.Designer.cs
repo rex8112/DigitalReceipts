@@ -47,6 +47,9 @@
             this.forTip = new System.Windows.Forms.ToolTip(this.components);
             this.idLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
+            this.validationError = new System.Windows.Forms.ErrorProvider(this.components);
+            this.clearButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.validationError)).BeginInit();
             this.SuspendLayout();
             // 
             // dateTimePicker1
@@ -108,46 +111,59 @@
             // remarksLabel
             // 
             this.remarksLabel.AutoSize = true;
+            this.remarksLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.remarksLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
             this.remarksLabel.Location = new System.Drawing.Point(36, 102);
             this.remarksLabel.Name = "remarksLabel";
             this.remarksLabel.Size = new System.Drawing.Size(52, 15);
             this.remarksLabel.TabIndex = 8;
             this.remarksLabel.Text = "Remarks";
+            this.remarksLabel.Click += new System.EventHandler(this.remarksLabel_Click);
             // 
             // moneyBox
             // 
             this.moneyBox.Location = new System.Drawing.Point(345, 41);
             this.moneyBox.Name = "moneyBox";
+            this.moneyBox.PlaceholderText = "Ex: 123.00";
             this.moneyBox.Size = new System.Drawing.Size(100, 23);
             this.moneyBox.TabIndex = 3;
             this.moneyBox.Leave += new System.EventHandler(this.moneyBox_Leave);
+            this.moneyBox.Validating += new System.ComponentModel.CancelEventHandler(this.moneyBox_Validating);
+            this.moneyBox.Validated += new System.EventHandler(this.moneyBox_Validated);
             // 
             // moneyLabel
             // 
             this.moneyLabel.AllowDrop = true;
             this.moneyLabel.AutoSize = true;
+            this.moneyLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.moneyLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
             this.moneyLabel.Location = new System.Drawing.Point(331, 44);
             this.moneyLabel.Name = "moneyLabel";
             this.moneyLabel.Size = new System.Drawing.Size(13, 15);
             this.moneyLabel.TabIndex = 2;
             this.moneyLabel.Text = "$";
+            this.moneyLabel.Click += new System.EventHandler(this.moneyLabel_Click);
             // 
             // referenceBox
             // 
             this.referenceBox.Location = new System.Drawing.Point(286, 128);
             this.referenceBox.Name = "referenceBox";
-            this.referenceBox.PlaceholderText = "Ex: Check #123";
+            this.referenceBox.PlaceholderText = "Ex: 123";
             this.referenceBox.Size = new System.Drawing.Size(159, 23);
             this.referenceBox.TabIndex = 7;
             // 
             // referenceLabel
             // 
             this.referenceLabel.AutoSize = true;
+            this.referenceLabel.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.referenceLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point);
             this.referenceLabel.Location = new System.Drawing.Point(221, 131);
             this.referenceLabel.Name = "referenceLabel";
             this.referenceLabel.Size = new System.Drawing.Size(59, 15);
             this.referenceLabel.TabIndex = 11;
             this.referenceLabel.Text = "Reference";
+            this.forTip.SetToolTip(this.referenceLabel, "Click to copy the reference number with a prefix based on the payment type.");
+            this.referenceLabel.Click += new System.EventHandler(this.referenceLabel_Click);
             // 
             // forCheck
             // 
@@ -190,11 +206,26 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
+            // validationError
+            // 
+            this.validationError.ContainerControl = this;
+            // 
+            // clearButton
+            // 
+            this.clearButton.Location = new System.Drawing.Point(93, 207);
+            this.clearButton.Name = "clearButton";
+            this.clearButton.Size = new System.Drawing.Size(75, 23);
+            this.clearButton.TabIndex = 11;
+            this.clearButton.Text = "Clear";
+            this.clearButton.UseVisualStyleBackColor = true;
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
+            // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 242);
+            this.Controls.Add(this.clearButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.idLabel);
             this.Controls.Add(this.forBox);
@@ -217,6 +248,8 @@
             this.MinimumSize = new System.Drawing.Size(486, 281);
             this.Name = "AddReceipt";
             this.Text = "Add Receipt";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddReceipt_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.validationError)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -241,5 +274,7 @@
         private ToolTip forTip;
         private Label idLabel;
         private Button saveButton;
+        private ErrorProvider validationError;
+        private Button clearButton;
     }
 }
