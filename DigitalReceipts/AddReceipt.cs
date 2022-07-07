@@ -53,6 +53,55 @@ namespace DigitalReceipts
             this.referenceBox.Text = "";
         }
 
+        private bool validateForm()
+        {
+            try
+            {
+                this.moneyAmount = decimal.Parse(moneyBox.Text);
+                if (this.moneyAmount == 0m)
+                {
+                    this.validationError.SetError(this.moneyBox, "Must be larger than 0.");
+                    return false;
+                }
+            }
+            catch (FormatException)
+            {
+                this.validationError.SetError(this.moneyBox, "Must be a valid decimal number. Ex: 12.34");
+                return false;
+            }
+            this.validationError.SetError(this.moneyBox, "");
+
+            if (this.fromBox.Text == "")
+            {
+                this.validationError.SetError(this.fromBox, "Value must not be empty.");
+                return false;
+            }
+            this.validationError.SetError(this.fromBox, "");
+
+            if (this.addressBox.Text == "")
+            {
+                this.validationError.SetError(this.addressBox, "Value must not be empty");
+                return false;
+            }
+            this.validationError.SetError(this.addressBox, "");
+
+            if (this.paymentTypeBox.Text != "Cash" && this.referenceBox.Text == "")
+            {
+                this.validationError.SetError(this.referenceBox, "Value must not be empty for non cash receipts.");
+                return false;
+            }
+            this.validationError.SetError(this.referenceBox, "");
+
+            if (this.forCheck.Checked == true && this.forBox.Text == "")
+            {
+                this.validationError.SetError(this.forBox, "Value must not be empty if box is checked.");
+                return false;
+            }
+            this.validationError.SetError(this.forBox, "");
+
+            return true;
+        }
+
         private void moneyBox_Leave(object sender, EventArgs e)
         {
             
@@ -71,42 +120,17 @@ namespace DigitalReceipts
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            this.Index++;
-            Receipt receipt = new(this.moneyAmount, this.dateTimePicker1.Value, this.fromBox.Text, this.addressBox.Text, this.remarksBox.Text, this.referenceBox.Text, this.paymentTypeBox.Text, "RW", this.forBox.Text);
-            receiptHistory.Add(receipt);
-            db.Add(receipt.GetDatabaseSet());
-            db.SaveChanges();
-
-            this.moneyAmount = 0m;
-            this.moneyBox.Text = "0.00";
-            this.saveButton.Enabled = false;
-        }
-
-        private void moneyBox_Validating(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            try
+            if (this.validateForm())
             {
-                this.moneyAmount = decimal.Parse(moneyBox.Text);
-                if (this.moneyAmount == 0m)
-                {
-                    e.Cancel = true;
-                    this.saveButton.Enabled = false;
-                    this.validationError.SetError(this.moneyBox, "Must be larger than 0.");
-                }
-            }
-            catch (FormatException)
-            {
-                e.Cancel = true;
-                this.saveButton.Enabled = false;
-                this.validationError.SetError(this.moneyBox, "Must be a valid decimal number. Ex: 12.34");
-            }
-        }
+                this.Index++;
+                Receipt receipt = new(this.moneyAmount, this.dateTimePicker1.Value, this.fromBox.Text, this.addressBox.Text, this.remarksBox.Text, this.referenceBox.Text, this.paymentTypeBox.Text, "RW", this.forBox.Text);
+                receiptHistory.Add(receipt);
+                db.Add(receipt.GetDatabaseSet());
+                db.SaveChanges();
 
-        private void moneyBox_Validated(object sender, EventArgs e)
-        {
-            this.validationError.SetError(this.moneyBox, "");
-            this.saveButton.Enabled = true;
-            this.moneyBox.Text = this.moneyAmount.ToString("0.00");
+                this.moneyAmount = 0m;
+                this.moneyBox.Text = "0.00";
+            }
         }
 
         private void AddReceipt_FormClosing(object sender, FormClosingEventArgs e)

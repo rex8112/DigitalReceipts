@@ -128,8 +128,6 @@
             this.moneyBox.Size = new System.Drawing.Size(100, 23);
             this.moneyBox.TabIndex = 3;
             this.moneyBox.Leave += new System.EventHandler(this.moneyBox_Leave);
-            this.moneyBox.Validating += new System.ComponentModel.CancelEventHandler(this.moneyBox_Validating);
-            this.moneyBox.Validated += new System.EventHandler(this.moneyBox_Validated);
             // 
             // moneyLabel
             // 
