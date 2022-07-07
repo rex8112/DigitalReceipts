@@ -29,6 +29,7 @@ namespace DigitalReceipts
             };
             this.paymentTypeBox.DataSource = AllowedPaymentTypes;
             this.moneyAmount = 0m;
+            this.printStatus("Done Loading");
         }
 
         public int Index 
@@ -39,6 +40,11 @@ namespace DigitalReceipts
                 index = value;
                 this.idLabel.Text = $"E-{this.index:D6}";
             }
+        }
+
+        private void printStatus(string status)
+        {
+            this.statusLabel.Text = status;
         }
 
         private void clearForm()
@@ -102,11 +108,6 @@ namespace DigitalReceipts
             return true;
         }
 
-        private void moneyBox_Leave(object sender, EventArgs e)
-        {
-            
-        }
-
         private void forCheck_CheckedChanged(object sender, EventArgs e)
         {
             if (this.forCheck.Checked == true)
@@ -130,7 +131,10 @@ namespace DigitalReceipts
 
                 this.moneyAmount = 0m;
                 this.moneyBox.Text = "0.00";
+                this.printStatus($"E-{this.Index - 1:D6}: Saved Successfully");
             }
+            else
+                this.printStatus("Validation Error");
         }
 
         private void AddReceipt_FormClosing(object sender, FormClosingEventArgs e)

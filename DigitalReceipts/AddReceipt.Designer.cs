@@ -49,7 +49,10 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.validationError = new System.Windows.Forms.ErrorProvider(this.components);
             this.clearButton = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dateTimePicker1
@@ -127,7 +130,6 @@
             this.moneyBox.PlaceholderText = "Ex: 123.00";
             this.moneyBox.Size = new System.Drawing.Size(100, 23);
             this.moneyBox.TabIndex = 3;
-            this.moneyBox.Leave += new System.EventHandler(this.moneyBox_Leave);
             // 
             // moneyLabel
             // 
@@ -218,11 +220,29 @@
             this.clearButton.UseVisualStyleBackColor = true;
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 237);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(470, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 15;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(69, 17);
+            this.statusLabel.Text = "Placeholder";
+            // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(470, 242);
+            this.ClientSize = new System.Drawing.Size(470, 259);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.idLabel);
@@ -248,6 +268,8 @@
             this.Text = "Add Receipt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddReceipt_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -274,5 +296,7 @@
         private Button saveButton;
         private ErrorProvider validationError;
         private Button clearButton;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel statusLabel;
     }
 }
