@@ -5,7 +5,7 @@ namespace DigitalReceipts
         public static ReceiptsContext db = new();
         private decimal moneyAmount;
         private int index;
-        private List<Receipt> receiptHistory = new();
+        public List<Receipt> receiptHistory = new();
 
         public AddReceipt()
         {
@@ -29,6 +29,7 @@ namespace DigitalReceipts
             };
             this.paymentTypeBox.DataSource = AllowedPaymentTypes;
             this.moneyAmount = 0m;
+            this.RefreshData();
             this.printStatus("Done Loading");
         }
 
@@ -39,6 +40,17 @@ namespace DigitalReceipts
             {
                 index = value;
                 this.idLabel.Text = $"E-{this.index:D6}";
+            }
+        }
+
+        private void RefreshData()
+        {
+            var receipts = db.Receipts.OrderBy(x => x.Id);
+            this.receiptHistory.Clear();
+            foreach(ReceiptRecord rec in receipts)
+            {
+                Receipt receipt = new(rec);
+                this.receiptHistory.Add(receipt);
             }
         }
 
@@ -126,8 +138,10 @@ namespace DigitalReceipts
                 this.Index++;
                 Receipt receipt = new(this.moneyAmount, this.dateTimePicker1.Value, this.fromBox.Text, this.addressBox.Text, this.remarksBox.Text, this.referenceBox.Text, this.paymentTypeBox.Text, "RW", this.forBox.Text);
                 receiptHistory.Add(receipt);
-                db.Add(receipt.GetDatabaseSet());
+                ReceiptRecord record = receipt.GetDatabaseSet();
+                db.Add(record);
                 db.SaveChanges();
+                receipt.Id = record.Id;
 
                 this.moneyAmount = 0m;
                 this.moneyBox.Text = "0.00";
@@ -153,22 +167,37 @@ namespace DigitalReceipts
             {
                 prefix = "Serial #";
             }
+            this.referenceBox.Focus();
+            this.referenceBox.SelectAll();
             Clipboard.SetText($"{prefix}{this.referenceBox.Text}");
+            this.printStatus("Reference Copied to Clipboard");
         }
 
         private void remarksLabel_Click(object sender, EventArgs e)
         {
+            this.remarksBox.Focus();
+            this.remarksBox.SelectAll();
             Clipboard.SetText($"{remarksBox.Text} {idLabel.Text}");
+            this.printStatus("Remarks Copied to Clipboard");
         }
 
         private void moneyLabel_Click(object sender, EventArgs e)
         {
+            this.moneyBox.Focus();
+            this.moneyBox.SelectAll();
             Clipboard.SetText(this.moneyAmount.ToString("0.00"));
+            this.printStatus("Money Amount Copied to Clipboard");
         }
 
         private void clearButton_Click(object sender, EventArgs e)
         {
             this.clearForm();
+        }
+
+        private void historyButton_Click(object sender, EventArgs e)
+        {
+            var historyForm = new History(this.receiptHistory);
+            historyForm.Show();
         }
     }
 }

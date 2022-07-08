@@ -29,6 +29,7 @@ namespace DigitalReceipts
     public class ReceiptRecord
     {
         public int Id { get; set; }
+        public decimal Amount { get; set; }
         public string From { get; set; }
         public DateTime Date { get; set; }
         public string Address { get; set; }

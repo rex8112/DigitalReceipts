@@ -8,18 +8,20 @@ namespace DigitalReceipts
 {
     public class Receipt
     {
-        public decimal Amount;
-        public DateTime Date;
-        public string From;
-        public string Address;
-        public string Remarks;
-        public string Reference;
-        public string Type;
-        public string Sign;
-        public string? Tenant;
+        public int Id { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime Date { get; set; }
+        public string From { get; set; }
+        public string Address { get; set; }
+        public string Remarks { get; set; }
+        public string Reference { get; set; }
+        public string Type { get; set; }
+        public string Sign { get; set; }
+        public string? Tenant { get; set; }
 
-        public Receipt(decimal amt, DateTime date, string from, string address, string remarks, string reference, string type, string sign)
+        public Receipt(decimal amt, DateTime date, string from, string address, string remarks, string? reference, string type, string sign)
         {
+            this.Id = 0;
             this.Amount = amt;
             this.Date = date;
             this.From = from;
@@ -30,12 +32,28 @@ namespace DigitalReceipts
             this.Reference = reference;
         }
 
-        public Receipt(decimal amt, DateTime date, string from, string address, string remarks, string reference, string type, string sign, string tenant) :
+        public Receipt(decimal amt, DateTime date, string from, string address, string remarks, string? reference, string type, string sign, string? tenant) :
             this(amt, date, from, address, remarks, reference, type, sign)
         {
             this.Tenant = tenant;
             if (this.Tenant == "")
                 this.Tenant = null;
+        }
+        public Receipt(ReceiptRecord record) :
+            this
+            (
+                record.Amount,
+                record.Date,
+                record.From,
+                record.Address,
+                record.Remarks,
+                record.Reference,
+                record.PaymentType,
+                record.Signature,
+                record.Tenant
+            )
+        {
+            this.Id = record.Id;
         }
 
         public ReceiptRecord GetDatabaseSet()
@@ -43,6 +61,7 @@ namespace DigitalReceipts
             ReceiptRecord receiptRecord = new ReceiptRecord
             {
                 From = this.From,
+                Amount = this.Amount,
                 Address = this.Address,
                 Remarks = this.Remarks,
                 Reference = this.Reference,

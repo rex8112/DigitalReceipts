@@ -51,6 +51,7 @@
             this.clearButton = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.historyButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -237,11 +238,22 @@
             this.statusLabel.Size = new System.Drawing.Size(69, 17);
             this.statusLabel.Text = "Placeholder";
             // 
+            // historyButton
+            // 
+            this.historyButton.Location = new System.Drawing.Point(383, 207);
+            this.historyButton.Name = "historyButton";
+            this.historyButton.Size = new System.Drawing.Size(75, 23);
+            this.historyButton.TabIndex = 16;
+            this.historyButton.Text = "History";
+            this.historyButton.UseVisualStyleBackColor = true;
+            this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
+            // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 259);
+            this.Controls.Add(this.historyButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.clearButton);
             this.Controls.Add(this.saveButton);
@@ -298,5 +310,6 @@
         private Button clearButton;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel statusLabel;
+        private Button historyButton;
     }
 }
