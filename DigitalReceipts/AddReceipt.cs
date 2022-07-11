@@ -3,23 +3,14 @@ namespace DigitalReceipts
     public partial class AddReceipt : Form
     {
         public static ReceiptsContext db = new();
+        public List<Receipt> receiptHistory = new();
         private decimal moneyAmount;
         private int index;
-        public List<Receipt> receiptHistory = new();
+        private History? historyForm;
 
         public AddReceipt()
         {
             InitializeComponent();
-
-            try
-            {
-                var lastReceipt = db.Receipts.OrderBy(b => b.Id).Last();
-                this.Index = lastReceipt.Id + 1;
-            }
-            catch (InvalidOperationException)
-            {
-                this.Index = 1;
-            }
 
             var AllowedPaymentTypes = new[]
             {
@@ -30,7 +21,20 @@ namespace DigitalReceipts
             this.paymentTypeBox.DataSource = AllowedPaymentTypes;
             this.moneyAmount = 0m;
             this.RefreshData();
+            this.NewForm();
+            this.GetNameAutoComplete();
             this.printStatus("Done Loading");
+        }
+
+        public AutoCompleteStringCollection GetNameAutoComplete()
+        {
+            List<string> names = new();
+            foreach (Receipt receipt in this.receiptHistory)
+                names.Add(receipt.From);
+            AutoCompleteStringCollection collection = new();
+            collection.AddRange(names.Distinct().ToArray());
+            this.fromBox.AutoCompleteCustomSource = collection;
+            return collection;
         }
 
         public int Index 
@@ -43,6 +47,49 @@ namespace DigitalReceipts
             }
         }
 
+        public void SoftLoadReceipt(Receipt receipt)
+        {
+            this.addressBox.Text = receipt.Address;
+            this.paymentTypeBox.Text = receipt.Type;
+            this.fromBox.Text = receipt.From;
+            if (receipt.Tenant != null && receipt.Tenant != "")
+            {
+                this.forBox.Text = receipt.Tenant;
+                this.forCheck.Checked = true;
+            }
+            else
+            {
+                this.forBox.Text = "";
+                this.forCheck.Checked = false;
+            }
+        }
+        public void LoadReceipt(Receipt receipt)
+        {
+            this.SoftLoadReceipt(receipt);
+            this.Index = receipt.Id;
+            this.dateTimePicker1.Text = receipt.Date.ToString();
+            this.moneyAmount = receipt.Amount;
+            this.moneyBox.Text = this.moneyAmount.ToString();
+            this.remarksBox.Text = receipt.Remarks;
+            this.referenceBox.Text = receipt.Reference;
+            
+            this.SetFormState(false);
+        }
+
+        private void SetFormState(bool state)
+        {
+            this.dateTimePicker1.Enabled = state;
+            this.moneyBox.Enabled = state;
+            this.referenceBox.Enabled = state;
+            this.fromBox.Enabled = state;
+            this.forBox.Enabled = state;
+            this.forCheck.Enabled = state;
+            this.remarksBox.Enabled = state;
+            this.paymentTypeBox.Enabled = state;
+            this.addressBox.Enabled = state;
+            this.saveButton.Enabled = state;
+        }
+
         private void RefreshData()
         {
             var receipts = db.Receipts.OrderBy(x => x.Id);
@@ -52,6 +99,7 @@ namespace DigitalReceipts
                 Receipt receipt = new(rec);
                 this.receiptHistory.Add(receipt);
             }
+            this.GetNameAutoComplete();
         }
 
         private void printStatus(string status)
@@ -59,19 +107,38 @@ namespace DigitalReceipts
             this.statusLabel.Text = status;
         }
 
-        private void clearForm()
+        private void ClearForm()
         {
-            this.moneyAmount = 0m;
-            this.moneyBox.Text = "0.00";
             this.fromBox.Text = "";
             this.forBox.Text = "";
             this.forCheck.Checked = false;
             this.addressBox.Text = "";
             this.remarksBox.Text = "";
-            this.referenceBox.Text = "";
+            this.NewForm();
         }
 
-        private bool validateForm()
+        private void NewForm()
+        {
+            try
+            {
+                var lastReceipt = db.Receipts.OrderBy(b => b.Id).Last();
+                this.Index = lastReceipt.Id + 1;
+            }
+            catch (InvalidOperationException)
+            {
+                this.Index = 1;
+            }
+
+            this.moneyAmount = 0m;
+            this.moneyBox.Text = "0.00";
+            this.referenceBox.Text = "";
+
+            this.dateTimePicker1.Text = DateTime.Now.ToString();
+
+            this.SetFormState(true);
+        }
+
+        private bool ValidateForm()
         {
             try
             {
@@ -133,7 +200,7 @@ namespace DigitalReceipts
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (this.validateForm())
+            if (this.ValidateForm())
             {
                 this.Index++;
                 Receipt receipt = new(this.moneyAmount, this.dateTimePicker1.Value, this.fromBox.Text, this.addressBox.Text, this.remarksBox.Text, this.referenceBox.Text, this.paymentTypeBox.Text, "RW", this.forBox.Text);
@@ -143,9 +210,9 @@ namespace DigitalReceipts
                 db.SaveChanges();
                 receipt.Id = record.Id;
 
-                this.moneyAmount = 0m;
-                this.moneyBox.Text = "0.00";
                 this.printStatus($"E-{this.Index - 1:D6}: Saved Successfully");
+                this.NewForm();
+                this.GetNameAutoComplete();
             }
             else
                 this.printStatus("Validation Error");
@@ -191,13 +258,31 @@ namespace DigitalReceipts
 
         private void clearButton_Click(object sender, EventArgs e)
         {
-            this.clearForm();
+            this.ClearForm();
         }
 
         private void historyButton_Click(object sender, EventArgs e)
         {
-            var historyForm = new History(this.receiptHistory);
-            historyForm.Show();
+            if (this.historyForm == null)
+                this.historyForm = new History(this);
+            else if (this.historyForm.IsDisposed)
+                this.historyForm = new History(this);
+            this.historyForm.Show();
+        }
+
+        private void newButton_Click(object sender, EventArgs e)
+        {
+            this.NewForm();
+        }
+
+        private void fromBox_Leave(object sender, EventArgs e)
+        {
+            if (this.GetNameAutoComplete().Contains(fromBox.Text))
+            {
+                var matchingReceipt = db.Receipts.Where(x => x.From == fromBox.Text).OrderBy(x => x.Id).Last();
+                Receipt receipt = new(matchingReceipt);
+                this.SoftLoadReceipt(receipt);
+            }
         }
     }
 }

@@ -52,6 +52,7 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.historyButton = new System.Windows.Forms.Button();
+            this.newButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -66,10 +67,13 @@
             // 
             // fromBox
             // 
+            this.fromBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.fromBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.fromBox.Location = new System.Drawing.Point(94, 41);
             this.fromBox.Name = "fromBox";
             this.fromBox.Size = new System.Drawing.Size(231, 23);
             this.fromBox.TabIndex = 2;
+            this.fromBox.Leave += new System.EventHandler(this.fromBox_Leave);
             // 
             // addressBox
             // 
@@ -213,7 +217,7 @@
             // 
             // clearButton
             // 
-            this.clearButton.Location = new System.Drawing.Point(93, 207);
+            this.clearButton.Location = new System.Drawing.Point(302, 207);
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(75, 23);
             this.clearButton.TabIndex = 11;
@@ -248,11 +252,22 @@
             this.historyButton.UseVisualStyleBackColor = true;
             this.historyButton.Click += new System.EventHandler(this.historyButton_Click);
             // 
+            // newButton
+            // 
+            this.newButton.Location = new System.Drawing.Point(221, 207);
+            this.newButton.Name = "newButton";
+            this.newButton.Size = new System.Drawing.Size(75, 23);
+            this.newButton.TabIndex = 17;
+            this.newButton.Text = "New";
+            this.newButton.UseVisualStyleBackColor = true;
+            this.newButton.Click += new System.EventHandler(this.newButton_Click);
+            // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 259);
+            this.Controls.Add(this.newButton);
             this.Controls.Add(this.historyButton);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.clearButton);
@@ -311,5 +326,6 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel statusLabel;
         private Button historyButton;
+        private Button newButton;
     }
 }

@@ -12,24 +12,38 @@ namespace DigitalReceipts
 {
     public partial class History : Form
     {
-        private readonly List<string> data = new();
-        private readonly List<Receipt> receipts = new();
-        public History(List<Receipt> receipts)
+        private readonly AddReceipt parent;
+        private List<Receipt> receipts = new();
+        private readonly List<Receipt> org_receipts = new();
+        public History(AddReceipt parentForm)
         {
+            this.parent = parentForm;
+            this.org_receipts = parentForm.receiptHistory;
+
             InitializeComponent();
-            this.receipts = receipts;
-            this.dataGridView1.DataSource = receipts;
             this.RefreshData();
         }
 
         public void RefreshData()
         {
-            data.Clear();
-            foreach (Receipt item in receipts)
-            {
-                string[] row = { item.Id.ToString(), item.From, item.Amount.ToString("0.00"), item.Reference, item.Remarks };
-                ListViewItem viewItem = new(row);
-            }
+            this.receipts = new(this.org_receipts);
+            this.receipts.Reverse();
+            this.dataGridView1.DataSource = this.receipts;
+            this.dataGridView1.Refresh();
+        }
+
+        private void refreshButton_Click(object sender, EventArgs e)
+        {
+            this.RefreshData();
+        }
+
+        private void loadButton_Click(object sender, EventArgs e)
+        {
+            if (this.dataGridView1.SelectedRows.Count == 0)
+                return;
+            int index = this.dataGridView1.SelectedRows[0].Index;
+            Receipt receipt = this.receipts[index];
+            parent.LoadReceipt(receipt);
         }
     }
 }
