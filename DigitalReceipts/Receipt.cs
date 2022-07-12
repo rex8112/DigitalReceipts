@@ -14,7 +14,7 @@ namespace DigitalReceipts
         public string From { get; set; }
         public string Address { get; set; }
         public string Remarks { get; set; }
-        public string Reference { get; set; }
+        public string? Reference { get; set; }
         public string Type { get; set; }
         public string Sign { get; set; }
         public string? Tenant { get; set; }
@@ -58,18 +58,38 @@ namespace DigitalReceipts
 
         public ReceiptRecord GetDatabaseSet()
         {
-            ReceiptRecord receiptRecord = new ReceiptRecord
+            ReceiptRecord receiptRecord;
+            if (this.Id == 0)
             {
-                From = this.From,
-                Amount = this.Amount,
-                Address = this.Address,
-                Remarks = this.Remarks,
-                Reference = this.Reference,
-                PaymentType = this.Type,
-                Signature = this.Sign,
-                Tenant = this.Tenant,
-                Date = this.Date
-            };
+                receiptRecord = new()
+                {
+                    From = this.From,
+                    Amount = this.Amount,
+                    Address = this.Address,
+                    Remarks = this.Remarks,
+                    Reference = this.Reference,
+                    PaymentType = this.Type,
+                    Signature = this.Sign,
+                    Tenant = this.Tenant,
+                    Date = this.Date
+                };
+            }
+            else
+            {
+                receiptRecord = new()
+                {
+                    Id = this.Id,
+                    From = this.From,
+                    Amount = this.Amount,
+                    Address = this.Address,
+                    Remarks = this.Remarks,
+                    Reference = this.Reference,
+                    PaymentType = this.Type,
+                    Signature = this.Sign,
+                    Tenant = this.Tenant,
+                    Date = this.Date
+                };
+            }
             return receiptRecord;
         }
     }

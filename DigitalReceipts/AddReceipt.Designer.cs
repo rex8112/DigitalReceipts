@@ -53,8 +53,10 @@
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.historyButton = new System.Windows.Forms.Button();
             this.newButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dateTimePicker1
@@ -262,11 +264,20 @@
             this.newButton.UseVisualStyleBackColor = true;
             this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
+            this.pictureBox1.TabIndex = 18;
+            this.pictureBox1.TabStop = false;
+            // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 259);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.historyButton);
             this.Controls.Add(this.statusStrip1);
@@ -297,6 +308,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -327,5 +339,6 @@
         private ToolStripStatusLabel statusLabel;
         private Button historyButton;
         private Button newButton;
+        private PictureBox pictureBox1;
     }
 }
