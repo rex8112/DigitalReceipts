@@ -11,7 +11,7 @@ namespace DigitalReceipts
     {
         public static async Task UpdateMyApp()
         {
-            using var mgr = new UpdateManager("https://github.com/rex8112/DigitalReceipts/releases");
+            using var mgr = new GithubUpdateManager("https://github.com/rex8112/DigitalReceipts");
             if (mgr.IsInstalledApp)
             {
                 var newVersion = await mgr.UpdateApp();
