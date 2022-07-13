@@ -13,16 +13,27 @@ namespace DigitalReceipts
 
         public string DbPath { get; }
 
+        private string connectionString;
+
         public ReceiptsContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = Path.Join(path, "receipts.db");
+            string username = Properties.Settings.Default.DatabaseUsername;
+            string password = Properties.Settings.Default.DatabasePassword;
+            string address = Properties.Settings.Default.DatabaseIP;
+            string port = Properties.Settings.Default.DatabasePort;
+            string table = Properties.Settings.Default.DatabaseTable;
+            connectionString = $"server={address};port={port};database={table};user={username};password={password}";
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.UseSqlite($"Data Source={DbPath}");
+            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ReceiptRecord>()
+                .HasKey(x => x.Id);
         }
     }
 

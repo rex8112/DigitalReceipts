@@ -53,10 +53,11 @@
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.historyButton = new System.Windows.Forms.Button();
             this.newButton = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.backgroundConnectionWorker = new System.ComponentModel.BackgroundWorker();
+            this.statusSymbol = new System.Windows.Forms.Label();
+            this.updateWorker = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).BeginInit();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // dateTimePicker1
@@ -132,6 +133,7 @@
             // 
             // moneyBox
             // 
+            this.moneyBox.Enabled = false;
             this.moneyBox.Location = new System.Drawing.Point(345, 41);
             this.moneyBox.Name = "moneyBox";
             this.moneyBox.PlaceholderText = "Ex: 123.00";
@@ -153,6 +155,7 @@
             // 
             // referenceBox
             // 
+            this.referenceBox.Enabled = false;
             this.referenceBox.Location = new System.Drawing.Point(286, 128);
             this.referenceBox.Name = "referenceBox";
             this.referenceBox.PlaceholderText = "Ex: 123";
@@ -205,6 +208,7 @@
             // 
             // saveButton
             // 
+            this.saveButton.Enabled = false;
             this.saveButton.Location = new System.Drawing.Point(12, 207);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
@@ -264,20 +268,32 @@
             this.newButton.UseVisualStyleBackColor = true;
             this.newButton.Click += new System.EventHandler(this.newButton_Click);
             // 
-            // pictureBox1
+            // backgroundConnectionWorker
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 12);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.TabIndex = 18;
-            this.pictureBox1.TabStop = false;
+            this.backgroundConnectionWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundConnectionWorker_DoWork);
+            this.backgroundConnectionWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundConnectionWorker_RunWorkerCompleted);
+            // 
+            // statusSymbol
+            // 
+            this.statusSymbol.AutoSize = true;
+            this.statusSymbol.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.statusSymbol.Location = new System.Drawing.Point(12, 9);
+            this.statusSymbol.Name = "statusSymbol";
+            this.statusSymbol.Size = new System.Drawing.Size(19, 15);
+            this.statusSymbol.TabIndex = 18;
+            this.statusSymbol.Text = "❌";
+            this.statusSymbol.Click += new System.EventHandler(this.statusSymbol_Click);
+            // 
+            // updateWorker
+            // 
+            this.updateWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.updateWorker_DoWork);
             // 
             // AddReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 259);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.statusSymbol);
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.historyButton);
             this.Controls.Add(this.statusStrip1);
@@ -305,10 +321,10 @@
             this.Name = "AddReceipt";
             this.Text = "Add Receipt";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AddReceipt_FormClosing);
+            this.Load += new System.EventHandler(this.AddReceipt_Load);
             ((System.ComponentModel.ISupportInitialize)(this.validationError)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,6 +355,8 @@
         private ToolStripStatusLabel statusLabel;
         private Button historyButton;
         private Button newButton;
-        private PictureBox pictureBox1;
+        private System.ComponentModel.BackgroundWorker backgroundConnectionWorker;
+        private Label statusSymbol;
+        private System.ComponentModel.BackgroundWorker updateWorker;
     }
 }

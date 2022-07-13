@@ -2,11 +2,12 @@ namespace DigitalReceipts
 {
     public partial class AddReceipt : Form
     {
-        public static ReceiptsContext db = new();
+        public static ReceiptsContext db;
         public List<Receipt> receiptHistory = new();
         private decimal moneyAmount;
         private int index;
         private History? historyForm;
+        private bool connected = false;
 
         public AddReceipt()
         {
@@ -20,10 +21,14 @@ namespace DigitalReceipts
             };
             this.paymentTypeBox.DataSource = AllowedPaymentTypes;
             this.moneyAmount = 0m;
-            this.RefreshData();
-            this.NewForm();
-            this.GetNameAutoComplete();
             this.printStatus("Done Loading");
+            this.updateWorker.RunWorkerAsync();
+        }
+
+        private void Connect()
+        {
+            db = new();
+            this.RefreshData();
         }
 
         public AutoCompleteStringCollection GetNameAutoComplete()
@@ -44,6 +49,22 @@ namespace DigitalReceipts
             {
                 index = value;
                 this.idLabel.Text = $"E-{this.index:D6}";
+            }
+        }
+
+        public bool Connected
+        {
+            get
+            {
+                return connected;
+            }
+            set
+            {
+                connected = value;
+                if (value)
+                    this.statusSymbol.Text = "\u2714";
+                else
+                    this.statusSymbol.Text = "\u274C";
             }
         }
 
@@ -99,7 +120,6 @@ namespace DigitalReceipts
                 Receipt receipt = new(rec);
                 this.receiptHistory.Add(receipt);
             }
-            this.GetNameAutoComplete();
         }
 
         private void printStatus(string status)
@@ -125,6 +145,10 @@ namespace DigitalReceipts
                 this.Index = lastReceipt.Id + 1;
             }
             catch (InvalidOperationException)
+            {
+                this.Index = 1;
+            }
+            catch (NullReferenceException)
             {
                 this.Index = 1;
             }
@@ -283,6 +307,61 @@ namespace DigitalReceipts
                 Receipt receipt = new(matchingReceipt);
                 this.SoftLoadReceipt(receipt);
             }
+        }
+
+        private void AddReceipt_Load(object sender, EventArgs e)
+        {
+            this.printStatus("Attempting to connect to Database");
+            this.backgroundConnectionWorker.RunWorkerAsync();
+        }
+
+        private void backgroundConnectionWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            System.ComponentModel.BackgroundWorker bw = (System.ComponentModel.BackgroundWorker) sender;
+
+            try
+            {
+                this.Connect();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Database Failure", ex);
+            }
+        }
+
+        private void backgroundConnectionWorker_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                this.printStatus($"Database Failed to Connect: {e.Error.Message}");
+                this.Connected = false;
+            }
+            else
+            {
+                this.printStatus("Database Connected");
+                this.Connected = true;
+                this.GetNameAutoComplete();
+                this.NewForm();
+            }
+
+        }
+
+        private void settings_Closed(object sender, FormClosedEventArgs e)
+        {
+            this.printStatus("Attempting to connect to Database");
+            this.backgroundConnectionWorker.RunWorkerAsync();
+        }
+
+        private void statusSymbol_Click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.FormClosed += new FormClosedEventHandler(this.settings_Closed);
+            settingsForm.Show();
+        }
+
+        private async void updateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            await Updater.UpdateMyApp();
         }
     }
 }
