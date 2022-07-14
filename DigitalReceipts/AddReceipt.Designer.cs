@@ -45,6 +45,7 @@
             this.forCheck = new System.Windows.Forms.CheckBox();
             this.forBox = new System.Windows.Forms.TextBox();
             this.forTip = new System.Windows.Forms.ToolTip(this.components);
+            this.signBox = new System.Windows.Forms.TextBox();
             this.idLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.validationError = new System.Windows.Forms.ErrorProvider(this.components);
@@ -196,6 +197,17 @@
             this.forBox.TabIndex = 9;
             this.forBox.Visible = false;
             // 
+            // signBox
+            // 
+            this.signBox.Location = new System.Drawing.Point(394, 169);
+            this.signBox.MaxLength = 2;
+            this.signBox.Name = "signBox";
+            this.signBox.PlaceholderText = "Ex: RW";
+            this.signBox.Size = new System.Drawing.Size(51, 23);
+            this.signBox.TabIndex = 19;
+            this.forTip.SetToolTip(this.signBox, "Put the initials of who is filling it out.");
+            this.signBox.Leave += new System.EventHandler(this.signBox_Leave);
+            // 
             // idLabel
             // 
             this.idLabel.AutoSize = true;
@@ -293,6 +305,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(470, 259);
+            this.Controls.Add(this.signBox);
             this.Controls.Add(this.statusSymbol);
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.historyButton);
@@ -358,5 +371,6 @@
         private System.ComponentModel.BackgroundWorker backgroundConnectionWorker;
         private Label statusSymbol;
         private System.ComponentModel.BackgroundWorker updateWorker;
+        private TextBox signBox;
     }
 }

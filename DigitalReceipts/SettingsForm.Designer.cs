@@ -52,7 +52,7 @@
             this.passwordBox.Location = new System.Drawing.Point(78, 48);
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.Size = new System.Drawing.Size(235, 23);
-            this.passwordBox.TabIndex = 0;
+            this.passwordBox.TabIndex = 1;
             this.passwordBox.UseSystemPasswordChar = true;
             // 
             // ipBox
@@ -60,14 +60,14 @@
             this.ipBox.Location = new System.Drawing.Point(78, 99);
             this.ipBox.Name = "ipBox";
             this.ipBox.Size = new System.Drawing.Size(235, 23);
-            this.ipBox.TabIndex = 0;
+            this.ipBox.TabIndex = 2;
             // 
             // portBox
             // 
             this.portBox.Location = new System.Drawing.Point(78, 128);
             this.portBox.Name = "portBox";
             this.portBox.Size = new System.Drawing.Size(235, 23);
-            this.portBox.TabIndex = 0;
+            this.portBox.TabIndex = 3;
             // 
             // usernameLabel
             // 
@@ -110,7 +110,7 @@
             this.saveButton.Location = new System.Drawing.Point(12, 177);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
-            this.saveButton.TabIndex = 5;
+            this.saveButton.TabIndex = 4;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
@@ -120,7 +120,7 @@
             this.cancelButton.Location = new System.Drawing.Point(238, 177);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 6;
+            this.cancelButton.TabIndex = 5;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);

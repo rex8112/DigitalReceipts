@@ -21,6 +21,7 @@ namespace DigitalReceipts
             };
             this.paymentTypeBox.DataSource = AllowedPaymentTypes;
             this.moneyAmount = 0m;
+            this.signBox.Text = Properties.Settings.Default.Signer;
             this.printStatus("Done Loading");
             this.updateWorker.RunWorkerAsync();
         }
@@ -167,6 +168,7 @@ namespace DigitalReceipts
             try
             {
                 this.moneyAmount = decimal.Parse(moneyBox.Text);
+                moneyBox.Text = this.moneyAmount.ToString("0.00");
                 if (this.moneyAmount == 0m)
                 {
                     this.validationError.SetError(this.moneyBox, "Must be larger than 0.");
@@ -207,6 +209,12 @@ namespace DigitalReceipts
                 return false;
             }
             this.validationError.SetError(this.forBox, "");
+            if (string.IsNullOrEmpty(this.signBox.Text))
+            {
+                this.validationError.SetError(this.signBox, "Initials can not be blanks.");
+                return false;
+            }
+            this.validationError.SetError(this.signBox, "");
 
             return true;
         }
@@ -227,7 +235,7 @@ namespace DigitalReceipts
             if (this.ValidateForm())
             {
                 this.Index++;
-                Receipt receipt = new(this.moneyAmount, this.dateTimePicker1.Value, this.fromBox.Text, this.addressBox.Text, this.remarksBox.Text, this.referenceBox.Text, this.paymentTypeBox.Text, "RW", this.forBox.Text);
+                Receipt receipt = new(this.moneyAmount, this.dateTimePicker1.Value, this.fromBox.Text, this.addressBox.Text, this.remarksBox.Text, this.referenceBox.Text, this.paymentTypeBox.Text, this.signBox.Text, this.forBox.Text);
                 receiptHistory.Add(receipt);
                 ReceiptRecord record = receipt.GetDatabaseSet();
                 db.Add(record);
@@ -362,6 +370,12 @@ namespace DigitalReceipts
         private async void updateWorker_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             await Updater.UpdateMyApp();
+        }
+
+        private void signBox_Leave(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Signer = this.signBox.Text;
+            Properties.Settings.Default.Save();
         }
     }
 }

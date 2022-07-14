@@ -17,5 +17,8 @@
     <Setting Name="DatabaseTable" Type="System.String" Scope="Application">
       <Value Profile="(Default)">receipts</Value>
     </Setting>
+    <Setting Name="Signer" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

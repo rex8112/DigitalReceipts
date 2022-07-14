@@ -79,5 +79,17 @@ namespace DigitalReceipts.Properties {
                 return ((string)(this["DatabaseTable"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Signer {
+            get {
+                return ((string)(this["Signer"]));
+            }
+            set {
+                this["Signer"] = value;
+            }
+        }
     }
 }
